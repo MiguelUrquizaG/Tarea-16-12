@@ -3,6 +3,9 @@ package com.salesianostriana.dam.Tarea16_12.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +22,8 @@ public class Attendee {
     private String lastName;
     private int age;
 
-    @ManyToOne
-    private StaffAssignment staffAssignment;
+    @OneToMany(mappedBy = "attendee")
+    @Builder.Default
+    private Set<StaffAssignment> staffAssignment = new HashSet<>();
 
 }

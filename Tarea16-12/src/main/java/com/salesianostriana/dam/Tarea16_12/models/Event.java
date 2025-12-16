@@ -28,7 +28,12 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     private Venue venue;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Ticket>ticketSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "event")
+    @Builder.Default
     private Set<StaffAssignment> staffAssignmentList=new HashSet<>();
 
     @Override

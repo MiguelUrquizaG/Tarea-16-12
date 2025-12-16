@@ -22,7 +22,7 @@ public class Venue {
     private Long id;
 
     private String name;
-
+    private String ciudad;
 
     @Override
     public final boolean equals(Object o) {
