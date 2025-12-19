@@ -1,12 +1,13 @@
 package com.salesianostriana.dam.Tarea16_12.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,11 @@ public class Venue {
     private String name;
     private String ciudad;
 
+    @OneToMany(mappedBy = "venue")
+    @Builder.Default
+    private List<Event> eventList=new ArrayList<>();
+
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -38,5 +44,15 @@ public class Venue {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    public boolean checkEventSameDay(LocalDate startAt, LocalDate endAt){
+        boolean permitido=true;
+        for (Event v : eventList){
+            if(startAt.isAfter(v.getStartedAt())&& startAt.isBefore(v.getEndAt())|| endAt.isBefore(v.getEndAt())&& endAt.isAfter(v.getStartedAt())){
+                permitido = false;
+            }
+        }
+        return permitido;
     }
 }

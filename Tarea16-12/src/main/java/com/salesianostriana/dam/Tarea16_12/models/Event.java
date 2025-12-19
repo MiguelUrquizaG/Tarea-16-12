@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -36,6 +38,14 @@ public class Event {
     @Builder.Default
     private Set<StaffAssignment> staffAssignmentList=new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    private EventStatus eventStatus;
+
+    private LocalDate startedAt;
+    private LocalTime startTime;
+    private LocalDate endAt;
+    private LocalTime endTime;
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -51,4 +61,20 @@ public class Event {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+    public static boolean checkHour(LocalTime startTime, LocalTime endTime){
+        boolean isValid=true;
+
+        if(startTime.isBefore(LocalTime.now())|| endTime.isBefore(LocalTime.now())){
+            isValid = false;
+        }
+
+        return isValid;
+    }
+/*
+    public void checkCancelled(EventStatus eventStatus){
+        if(eventStatus.)
+    }
+    */
+ 
 }
